@@ -34,9 +34,11 @@ export class HomeComponent implements OnInit {
   }
 
   reloadCourses() {
-    const courses$ = this.courseService
-      .loadAllCourses()
-      .pipe(map((courses) => courses.sort(sortCoursesBySeqNo)));
+    this.loadingService.loadingOn();
+    const courses$ = this.courseService.loadAllCourses().pipe(
+      map((courses) => courses.sort(sortCoursesBySeqNo)),
+      finalize(() => this.loadingService.loadingOff())
+    );
 
     //courses$.subscribe((val) => console.log(val));
 
