@@ -23,6 +23,7 @@ import {
 } from 'rxjs/operators';
 import { merge, fromEvent, Observable, concat, throwError } from 'rxjs';
 import { Lesson } from '../model/lesson';
+import { CoursesService } from '../services/courses.service';
 
 @Component({
   selector: 'course',
@@ -30,11 +31,13 @@ import { Lesson } from '../model/lesson';
   styleUrls: ['./course.component.css'],
 })
 export class CourseComponent implements OnInit {
-  course: Course;
+  course$: Observable<Course>;
+  lessons$: Observable<Lesson[]>;
 
-  lessons: Lesson[];
+  constructor(private route: ActivatedRoute, private coursesService: CoursesService) {}
 
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit() {}
+  ngOnInit() {
+    const courseId = parseInt(this.route.snapshot.paramMap.get('courseId'));
+    this.course$ = this.coursesService.loadCourseById(courseId);
+  }
 }
