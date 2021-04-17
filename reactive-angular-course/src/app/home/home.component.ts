@@ -12,9 +12,7 @@ import {
   shareReplay,
   tap,
 } from 'rxjs/operators';
-import { CoursesService } from '../services/courses.service';
-import { LoadingService } from '../loading/loading.service';
-import { MessagesService } from '../messages/messages.service';
+import { CoursesStore } from '../services/courses.store';
 
 @Component({
   selector: 'home',
@@ -25,39 +23,14 @@ export class HomeComponent implements OnInit {
   beginnerCourses$: Observable<Course[]>;
   advancedCourses$: Observable<Course[]>;
 
-  constructor(
-    private courseService: CoursesService,
-    private loadingService: LoadingService,
-    private messagesService: MessagesService
-  ) {}
+  constructor(private coursesStore: CoursesStore) {}
 
   ngOnInit() {
     this.reloadCourses();
   }
 
   reloadCourses() {
-    const courses$ = this.courseService.loadAllCourses().pipe(
-      map((courses) => courses.sort(sortCoursesBySeqNo)),
-      catchError((err) => {
-        const message = 'Could not load courses';
-        this.messagesService.showErrors(message);
-        console.log(message, err);
-        return throwError(err);
-      })
-    );
-
-    const loadCourses$ = this.loadingService.showLoaderUntilCompleted(courses$);
-
-    this.beginnerCourses$ = loadCourses$.pipe(
-      map((courses) =>
-        courses.filter((course) => course.category == 'BEGINNER')
-      )
-    );
-
-    this.advancedCourses$ = loadCourses$.pipe(
-      map((courses) =>
-        courses.filter((course) => course.category == 'ADVANCED')
-      )
-    );
+    this.beginnerCourses$ = this.coursesStore.filterByCategory('BEGINNER');
+    this.advancedCourses$ = this.coursesStore.filterByCategory('ADVANCED');
   }
 }
