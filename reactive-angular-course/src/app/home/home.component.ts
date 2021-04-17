@@ -13,7 +13,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { CoursesService } from '../services/courses.service';
-import { LoadingService } from '../loading/laoding.service';
+import { LoadingService } from '../loading/loading.service';
 
 @Component({
   selector: 'home',
@@ -34,21 +34,19 @@ export class HomeComponent implements OnInit {
   }
 
   reloadCourses() {
-    this.loadingService.loadingOn();
     const courses$ = this.courseService.loadAllCourses().pipe(
-      map((courses) => courses.sort(sortCoursesBySeqNo)),
-      finalize(() => this.loadingService.loadingOff())
+      map((courses) => courses.sort(sortCoursesBySeqNo))
     );
 
-    //courses$.subscribe((val) => console.log(val));
+    const loadCourses$ = this.loadingService.showLoaderUntilCompleted(courses$);
 
-    this.beginnerCourses$ = courses$.pipe(
+    this.beginnerCourses$ = loadCourses$.pipe(
       map((courses) =>
         courses.filter((course) => course.category == 'BEGINNER')
       )
     );
 
-    this.advancedCourses$ = courses$.pipe(
+    this.advancedCourses$ = loadCourses$.pipe(
       map((courses) =>
         courses.filter((course) => course.category == 'ADVANCED')
       )

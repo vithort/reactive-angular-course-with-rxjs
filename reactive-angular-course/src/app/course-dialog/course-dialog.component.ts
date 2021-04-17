@@ -14,7 +14,7 @@ import * as moment from 'moment';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { CoursesService } from '../services/courses.service';
-import { LoadingService } from '../loading/laoding.service';
+import { LoadingService } from '../loading/loading.service';
 
 @Component({
   selector: 'course-dialog',
