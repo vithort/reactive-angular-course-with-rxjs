@@ -45,7 +45,7 @@ export class SearchLessonsComponent implements OnInit {
     this.activeLesson = lesson;
   }
 
-  onbackToSearch() {
+  onBackToSearch() {
     this.activeLesson = null;
   }
 }
