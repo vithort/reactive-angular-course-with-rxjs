@@ -1,13 +1,13 @@
-import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
-import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
-import { filter, tap } from "rxjs/operators";
-import { CourseDialogComponent } from "../course-dialog/course-dialog.component";
-import { Course } from "../model/course";
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { filter, tap } from 'rxjs/operators';
+import { CourseDialogComponent } from '../course-dialog/course-dialog.component';
+import { Course } from '../model/course';
 
 @Component({
-  selector: "courses-card-list",
-  templateUrl: "./courses-card-list.component.html",
-  styleUrls: ["./courses-card-list.component.scss"],
+  selector: 'courses-card-list',
+  templateUrl: './courses-card-list.component.html',
+  styleUrls: ['./courses-card-list.component.scss'],
 })
 export class CoursesCardListComponent implements OnInit {
   @Input()
@@ -24,7 +24,7 @@ export class CoursesCardListComponent implements OnInit {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "400px";
+    dialogConfig.width = '400px';
 
     dialogConfig.data = course;
 
