@@ -34,10 +34,14 @@ export class CourseComponent implements OnInit {
   course$: Observable<Course>;
   lessons$: Observable<Lesson[]>;
 
-  constructor(private route: ActivatedRoute, private coursesService: CoursesService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private coursesService: CoursesService
+  ) {}
 
   ngOnInit() {
     const courseId = parseInt(this.route.snapshot.paramMap.get('courseId'));
     this.course$ = this.coursesService.loadCourseById(courseId);
+    this.lessons$ = this.coursesService.loadAllCourseLessons(courseId);
   }
 }
